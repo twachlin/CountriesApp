@@ -1,16 +1,21 @@
 package curso.udemy.countriesproject.view
 
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import curso.udemy.countriesproject.Country
 import curso.udemy.countriesproject.R
 import curso.udemy.countriesproject.databinding.ActivityMainBinding
+import curso.udemy.countriesproject.viewmodel.ListViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    //lateinit var viewModel: ListViewModel
-    private val countries = listOf(
+    private val countries = arrayListOf<Country>(
         Country("CountryA"),
         Country("CountryB"),
         Country("CountryC"),
@@ -22,19 +27,17 @@ class MainActivity : AppCompatActivity() {
         Country("CountryI"),
         Country("CountryJ")
     )
-    lateinit var countriesAdapter: CountryListAdapter
-    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        initRecycler()
-    }
 
-    private fun initRecycler() {
-        binding.countriesList.layoutManager = LinearLayoutManager(this)
-        countriesAdapter = CountryListAdapter(countries)
-        binding.countriesList.adapter = countriesAdapter
+        val recyclerView = findViewById<RecyclerView>(R.id.countriesList)
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val adapter = CountryListAdapter(countries)
+
+        recyclerView.adapter = adapter
     }
 }
