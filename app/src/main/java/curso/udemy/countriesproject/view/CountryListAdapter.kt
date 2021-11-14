@@ -12,6 +12,12 @@ import curso.udemy.countriesproject.databinding.ItemCountryBinding
 class CountryListAdapter(var countries: ArrayList<Country>) :
     RecyclerView.Adapter<CountryListAdapter.CountryViewHolder>() {
 
+    fun updateCountries(newCountries: ArrayList<Country>){
+        countries.clear()
+        countries.addAll(newCountries)
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_country, parent, false)

@@ -2,6 +2,8 @@ package curso.udemy.countriesproject.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -15,29 +17,45 @@ import curso.udemy.countriesproject.viewmodel.ListViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val countries = arrayListOf<Country>(
-        Country("CountryA"),
-        Country("CountryB"),
-        Country("CountryC"),
-        Country("CountryD"),
-        Country("CountryE"),
-        Country("CountryF"),
-        Country("CountryG"),
-        Country("CountryH"),
-        Country("CountryI"),
-        Country("CountryJ")
-    )
+    lateinit var viewModel: ListViewModel
+    private val countriesAdapter = CountryListAdapter(arrayListOf())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val recyclerView = findViewById<RecyclerView>(R.id.countriesList)
+        viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
+        viewModel.refresh()
+        initRecyclerView()
+        observeViewModel()
+    }
 
+    private fun initRecyclerView() {
+        val recyclerView = findViewById<RecyclerView>(R.id.countries_list)
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = countriesAdapter
+    }
 
-        val adapter = CountryListAdapter(countries)
+    private fun observeViewModel() {
+        val countriesList: RecyclerView = findViewById(R.id.countries_list)
+        val errorMessage: TextView = findViewById(R.id.list_error)
+        val progressBar: ProgressBar = findViewById(R.id.progress_bar)
+        viewModel.countries.observe(this, Observer { countries ->
+            countries?.let { countriesAdapter.updateCountries(it) }
+        })
 
-        recyclerView.adapter = adapter
+        viewModel.countryLoadError.observe(this, Observer { isError ->
+            isError?.let { errorMessage.visibility = if (it) View.VISIBLE else View.GONE }
+        })
+
+        viewModel.loading.observe(this, Observer { isLoading ->
+            isLoading?.let {
+                progressBar.visibility = if (it) View.VISIBLE else View.GONE
+                if (it) {
+                    errorMessage.visibility = View.GONE
+                    countriesList.visibility = View.GONE
+                }
+            }
+        })
     }
 }
