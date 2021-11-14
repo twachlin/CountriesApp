@@ -9,17 +9,20 @@ import curso.udemy.countriesproject.Country
 import curso.udemy.countriesproject.R
 import curso.udemy.countriesproject.databinding.ItemCountryBinding
 
-class CountryListAdapter(var countries: List<Country>) :
+class CountryListAdapter(var countries: ArrayList<Country>) :
     RecyclerView.Adapter<CountryListAdapter.CountryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_country, parent, false)
+
         return CountryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
-        holder.bind(countries[position])
+        val item = countries[position]
+
+        holder.bind(item)
     }
 
     override fun getItemCount(): Int {
@@ -27,11 +30,10 @@ class CountryListAdapter(var countries: List<Country>) :
     }
 
     class CountryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val countryName: TextView = itemView.findViewById(R.id.countryName)
 
-        private val binding = ItemCountryBinding.bind(itemView)
-
-        fun bind(country: Country) {
-            binding.name.text = country.countryName
+        fun bind (item: Country){
+            countryName.text = item.countryName
         }
     }
 }

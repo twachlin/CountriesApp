@@ -28,6 +28,6 @@ class ListViewModel: ViewModel() {
         )
         countryLoadError.value = false
         loading.value = false
-        countries.postValue(mockData)
+        countries.value = mockData
     }
 }
