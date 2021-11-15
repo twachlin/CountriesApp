@@ -5,23 +5,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/countryFlag"
-        android:layout_width="100dp"
+    <ImageView
+        android:id="@+id/country_flag"
+        android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_margin="10dp"
+        android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/countryName"
+        android:id="@+id/country_name"
+        style="@style/Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintBottom_toTopOf="@id/country_capital"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/country_flag"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Argentina" />
+
+    <TextView
+        android:id="@+id/country_capital"
+        style="@style/Text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/countryFlag"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Argentina" />
+        app:layout_constraintStart_toEndOf="@id/country_flag"
+        app:layout_constraintTop_toBottomOf="@id/country_name"
+        tools:text="Buenos Aires" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
