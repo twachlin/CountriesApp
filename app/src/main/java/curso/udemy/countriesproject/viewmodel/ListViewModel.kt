@@ -6,7 +6,7 @@ import curso.udemy.countriesproject.Country
 
 class ListViewModel: ViewModel() {
 
-    val countries = MutableLiveData<List<Country>>()
+    val countries = MutableLiveData<ArrayList<Country>>()
     val countryLoadError = MutableLiveData<Boolean>()
     val loading = MutableLiveData<Boolean>()
 
@@ -15,7 +15,7 @@ class ListViewModel: ViewModel() {
     }
 
     private fun fetchCountries() {
-        val mockData = listOf(Country("CountryA"),
+        val mockData = arrayListOf<Country>(Country("CountryA"),
             Country("CountryB"),
             Country("CountryC"),
             Country("CountryD"),
