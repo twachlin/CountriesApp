@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import curso.udemy.countriesproject.Country
 import curso.udemy.countriesproject.R
 import curso.udemy.countriesproject.databinding.ActivityMainBinding
@@ -27,6 +28,13 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
         viewModel.refresh()
         initRecyclerView()
+
+        val swipeRefreshLayout : SwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout)
+        swipeRefreshLayout.setOnRefreshListener {
+            swipeRefreshLayout.isRefreshing = false
+            viewModel.refresh()
+        }
+
         observeViewModel()
     }
 
