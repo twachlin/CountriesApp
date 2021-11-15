@@ -41,7 +41,9 @@ class MainActivity : AppCompatActivity() {
         val errorMessage: TextView = findViewById(R.id.list_error)
         val progressBar: ProgressBar = findViewById(R.id.progress_bar)
         viewModel.countries.observe(this, Observer { countries ->
-            countries?.let { countriesAdapter.updateCountries(it) }
+            countries?.let {
+                countriesList.visibility = View.VISIBLE
+                countriesAdapter.updateCountries(it) }
         })
 
         viewModel.countryLoadError.observe(this, Observer { isError ->
