@@ -1,21 +1,24 @@
 package curso.udemy.countriesproject.model
 
 import curso.udemy.countriesproject.Country
-import curso.udemy.countriesproject.di.DaggerApiComponent
 import io.reactivex.Single
-import javax.inject.Inject
-
+import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
+import retrofit2.converter.gson.GsonConverterFactory
 
 class CountriesService {
 
-    @Inject
-    lateinit var api: CountriesApi
+    private val BASE_URL = "https://raw.githubusercontent.com"
+    private val api: CountriesApi
 
     init {
-        DaggerApiComponent.create().inject(this)
+        api =
+            Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create()).build()
+                .create(CountriesApi::class.java)
     }
 
-    fun getCountries(): Single<List<Country>> {
+    fun getCountries(): Single<List<Country>>{
         return api.getCountries()
     }
 }
